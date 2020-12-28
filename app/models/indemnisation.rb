@@ -1,0 +1,2 @@
+class Indemnisation < ApplicationRecord
+end

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  designator: MyString
+  distance: 1
+  status: MyText
+  indemnite: 1
+
+two:
+  designator: MyString
+  distance: 1
+  status: MyText
+  indemnite: 1
