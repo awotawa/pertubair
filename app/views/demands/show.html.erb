@@ -1,3 +1,17 @@
-<h1>Récapitulatif</h1>
-<br>
-<p>Lors de votre vol <strong><%= @demand.designator %></strong>, partant de  XXX et à destination de XXX, vous avez subi un <strong><%= @demand.status %></strong>. </p>
+<div class="container">
+  <h1>Récapitulatif</h1>
+  <br>
+  <p>Lors de votre vol <strong><%= @demand.designator %></strong>, partant de <em><%= @demand.departure_airport %></em> et à destination de <em><%= @demand.arrival_airport %></em>, vous avez subi un <strong><%= @demand.status %></strong> en raison de <%= @demand.reason %>. </p>
+  <br>
+
+  <% if @demand.indemnite == 0%>
+    <p>
+    Malheureusement, vous n'êtes pas éligible à une indemnisation :(
+    <br>
+    Pour plus de précision veuillez envoyer un mail à l'addresse suivante (awotawa@gmail.com) avec l'url de votre demande.
+    </p>
+  <% else %>
+    <p>Selon les informations fournies, vous avez droit à une indemnisation de <strong><%= @demand.indemnite %> €</strong>.</p>
+  <% end %>
+  <p>Ce chiffre se base sur la réglementation européenne sur le droit des passagers (n° 261-2004) ainsi que l'arrêt Esturgeon.</p>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_26_120150) do
+ActiveRecord::Schema.define(version: 2021_01_02_140713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 2020_12_26_120150) do
     t.integer "indemnite"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "additional"
+    t.text "reason"
+    t.string "departure_country"
+    t.string "arrival_country"
+    t.text "departure_airport"
+    t.text "arrival_airport"
+    t.text "departure_airport_iata"
+    t.text "arrival_airport_iata"
+    t.integer "rerouting"
   end
 
 end

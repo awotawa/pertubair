@@ -1,57 +1,30 @@
-<h1>Additional information</h1>
-
-<p>Sur le vol <%= @demand.designator %>, de XXX à XXX, vous avez subi un(e) <%= @demand.status %>. Pouvez-vous nous apporter quelques informations complémentaire afin que nous puissions déterminer le montant exact de votre indemnisation.</p>
-
-<% case when @demand.status %>
-    <% when 'Annulation' %>
-
-    <% when 'Retard' %>
-    <% when "Refus d'embarquement" %>
-    <% when 'Declassement' %>
-<% end %>
-<% if @demand.status == 'Annulation' %>
-<% elsif  %>
-
-<%= form_for(@demand) do |d| %>
-    <%= d.input :designator, label: 'Sur le vol:', error: "Veuillez indiquer le numéro présent sur votre ticket, il est du type 'AB1234'", input_html: { maxlength: 30 }, placeholder: "AB1234" %>
-    <p>Mon vol a été annulé,</p>
-    <%= d.input :status, as: :select, collection: ["Annulation", "Retard", "Declassement", "Refus d'embarquement"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
-    <%= d.button :submit,'Montant de mon indemnisation', class: "btn-main", style:"width: 100%; margin-bottom:30px; margin-top:10px; background-color: #68c3ef"%>
-<% end %>
-# ANNULATION
-j'ai été prévenu 2 semaines avant mon heure de départ.
-j'ai été prévenu entre 1 à 2 semaine avant mon heure de départ
-j'ai été prévenu moins de 7 jours avant mon heure de départ
-
-"dû à des circonstances exceptionelles en dehors du contrôle de la compagnie aérienne (give examples....)"
-
- <%= d.input :pill, as: :radio_buttons, collection: User::PILL %>
-n'ai pas été prévenu
-
-# RETARD
-Mon vol a été retardé de
-moins de 3h
-plus de 3h
-
-dû :
-- conditions météorologiques
-- problèmes technique
-- grève de la compagnie (pilotes, hôtesses de l'air, stewards, ...)
-- grève sur l'aéroport (bagagiste, agents de sûreté, ....)
-- grève des controlleurs aériens
-- n'ai pas été informé/ne sais pas
-
-# REFUS D'EMBARQUEMENT
-quand :
-- avant d'arriver à l'aéroport
-- au comptoir d'enregistrement
-- lors du contrôle de sécurité
-- devant la porte d'embarquement
-
-dû :
-- manque de place dans l'avion
-- problème avec le personnel naviguant
-- absence de billet
-- retard à la présentation au comptoir d'enregistrement
-- embarquement terminé
-- pièce d'identité non recevable
+<div class="container-edit">
+  <h1>Additional information</h1>
+  <p>Sur le vol <%= @demand.designator %>, de <%= @demand.departure_airport %> à <%= @demand.arrival_airport %>, vous avez subi un(e) <%= @demand.status %>.</p>
+  <p>Pouvez-vous nous apporter quelques informations complémentaire afin que nous puissions déterminer le montant exact de votre indemnisation.</p>
+  <%= simple_form_for(@demand) do |f| %>
+    <!-- # ANNULATION -->
+    <% if @demand.status == 'Annulation' %>
+      <p>Mon vol a été annulé, dû </p>
+      <%= f.input :reason, as: :select, collection: ["conditions météorologiques", "problèmes technique", "grève de la compagnie (pilotes, hôtesses de l'air, stewards, ...)", "grève sur l'aéroport (bagagiste, agents de sûreté, ....)", "grève des controlleurs aériens", "n'ai pas été informé/ne sais pas"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+      <p>J'ai été prévenu(e) </p>
+      <%= f.input :additional, as: :select, collection: ["plus de 2 semaines", "entre 1 à 2 semaines", "moins de 7 jours"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+      <p> avant mon heure de départ.</p>
+    <!-- # RETARD -->
+    <% elsif @demand.status == 'Retard' %>
+      <p>Mon vol a été retardé de </p>
+      <%= f.input :additional, as: :select, collection: ["moins de 3 heures", "de plus de 3 heures"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+      <p> à cause de </p>
+      <%= f.input :reason, as: :select, collection: ["conditions météorologiques", "problèmes technique", "grève de la compagnie (pilotes, hôtesses de l'air, stewards, ...)", "grève sur l'aéroport (bagagiste, agents de sûreté, ....)", "grève des controlleurs aériens", "n'ai pas été informé/ne sais pas"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+    <!-- # REFUS D'EMBARQUEMENT -->
+    <% elsif @demand.status == "Refus d'embarquement" %>
+      <p>J'ai été refusé à l'embarquement </p>
+      <%= f.input :additional, as: :select, collection: ["avant d'arriver à l'aéroport", "au comptoir d'enregistrement", "lors du contrôle de sécurité", "devant la porte d'embarquement"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+      <p> à cause </p>
+      <%= f.input :reason, as: :select, collection: ["d'un manque de place dans l'avion", "de problème(s) avec le personnel naviguant", "d'une absence de billet", "d'un retard à la présentation au comptoir d'enregistrement", "de l'embarquement qui était terminé", "d'une pièce d'identité non recevable"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+    <% end %>
+    <p>Avez-vous bénéficié d'un réacheminement? Si oui, indiquez le nombre d'heures de différence entre l'arrivée prévue et celle du réacheminement (en négatif si vous êtes arrivé avant l'heure prévue)</p>
+    <%= f.input :rerouting, :as => :integer, label: false %>
+    <%= f.button :submit,'Ajouter ces informations complémentaires', class: "btn-info", style:"width: 100%; margin-bottom:30px; margin-top:10px;"%>
+  <% end %>
+</div>

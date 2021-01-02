@@ -1,0 +1,25 @@
+.banner {
+  color: white;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-family: 'Knewave', cursive;
+  }
+
+  p {
+    color: #dbdbdb;
+    font-size: 20px;
+  }
+
+  a {
+    margin: 10px;
+  }
+}
+
+
+
