@@ -1,11 +1,11 @@
 <br>
 <div class="container">
   <div class="inside-container">
-    <h1>Laissez-nous vous aider à réclammer ce qui vous est dû.</h1>
+    <h1>Laissez-nous vous aider à réclamer ce qui vous est dû.</h1>
     <%= simple_form_for @demand do |f| %>
     <%= f.input :designator, label: 'Sur le vol:', error: "Veuillez indiquer le numéro présent sur votre ticket, il est du type 'AB1234'", input_html: { maxlength: 30 }, placeholder: "AB1234" %>
       <p>J'ai subi un(e) </p>
-    <%= f.input :status, as: :select, collection: ["Annulation", "Retard", "Refus d'embarquement"], prompt: 'Veillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
+    <%= f.input :status, as: :select, collection: ["Annulation", "Retard", "Refus d'embarquement"], prompt: 'Veuillez choisir ce qui correspond le mieux à votre situation', label: false, error: "Ce champ ne peut pas être vide" %>
     <%= f.button :submit,'Montant de mon indemnisation', class: "btn-info", style:"width: 100%; margin-bottom:30px; margin-top:10px;"%>
     <% end %>
   </div>

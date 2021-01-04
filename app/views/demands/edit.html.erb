@@ -1,7 +1,7 @@
 <div class="container-edit">
   <h1>Additional information</h1>
   <p>Sur le vol <%= @demand.designator %>, de <%= @demand.departure_airport %> à <%= @demand.arrival_airport %>, vous avez subi un(e) <%= @demand.status %>.</p>
-  <p>Pouvez-vous nous apporter quelques informations complémentaire afin que nous puissions déterminer le montant exact de votre indemnisation.</p>
+  <p>Pouvez-vous nous apporter quelques informations complémentaires afin que nous puissions déterminer le montant exact de votre indemnisation.</p>
   <%= simple_form_for(@demand) do |f| %>
     <!-- # ANNULATION -->
     <% if @demand.status == 'Annulation' %>

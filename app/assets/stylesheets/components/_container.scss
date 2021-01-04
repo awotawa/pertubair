@@ -1,17 +1,19 @@
-.body {
-  background-color: #F4F4F4;
+body {
+  background-color: #f4f4c6;
 }
 
 .container {
   width: 85vh;
-  background-color: #4da9b5; //#58909A
+  background-color: #39c6d6; //#58909A
   padding: 50px;
   border-radius: 25px;
   color: #262626;
+  text-align: justify;
+  margin-top: 50px;
 
   h1 {
     text-align: center;
-    margin-top: 70px;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
 

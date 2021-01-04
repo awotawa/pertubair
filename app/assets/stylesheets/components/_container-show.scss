@@ -2,23 +2,27 @@
   background-color: #F4F4F4;
 }
 
-.container-edit {
+.container-show {
   width: 85vh;
   margin-left: 430px;
+  margin-top: 80px;
   background-color: #39c6d6; //#4da9b5; //#58909A;
-  padding: 20px;
+  padding: 50px;
   border-radius: 25px;
   color: #262626;
   text-align: justify;
-  margin-top: 10px;
 
   h1 {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
   }
 
   p {
     font-weight: bold;
+  }
+
+  strong > u {
+    font-size: 20px;
   }
 }

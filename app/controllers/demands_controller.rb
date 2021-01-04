@@ -18,6 +18,15 @@ class DemandsController < ApplicationController
   def create
     @demand = Demand.new(set_params)
     if @demand.save
+      @route = plane_route(@demand.designator)
+      @demand.departure_country = @route[0]
+      @demand.arrival_country = @route[1]
+      @demand.departure_airport = @route[2]
+      @demand.arrival_airport = @route[3]
+      @demand.departure_airport_iata = @route[4]
+      @demand.arrival_airport_iata = @route[5]
+      @demand.distance = distance_calculator(@route[4], @route[5])
+      @demand.save
       redirect_to edit_demand_path(@demand)
     else
       render :new
@@ -30,15 +39,7 @@ class DemandsController < ApplicationController
 
   def update
     @demand = Demand.find(params[:id])
-    @demand.indemnite = calculate_indemnisation(@demand)
-    @route = plane_route(@demand.designator)
-    @demand.departure_country = @route[0]
-    @demand.arrival_country = @route[1]
-    @demand.departure_airport = @route[2]
-    @demand.arrival_airport = @route[3]
-    @demand.departure_airport_iata = @route[4]
-    @demand.arrival_airport_iata = @route[5]
-    @demand.distance = distance_calculator(@route[4], @route[5])
+    # @demand.indemnite = calculate_indemnisation(@demand)
     if @demand.update(set_params)
       redirect_to demand_path(@demand)
     else
@@ -63,7 +64,7 @@ class DemandsController < ApplicationController
     html_doc = Nokogiri::HTML(html_file)
     html_doc.search('#tbl-datatable > tbody > tr:nth-child(1) > td:nth-child(4)').each do |element|
       @country_dep = element.attribute('title').value # airport country (format: ', Country')
-      @departure = element.text.strip # airport name and IATA code
+      @departure = element.text.strip # airport city and IATA code
     end
     html_doc.search('#tbl-datatable > tbody > tr:nth-child(1) > td:nth-child(5)').each do |element|
       @country_arr = element.attribute('title').value
@@ -96,7 +97,7 @@ class DemandsController < ApplicationController
     @dist_value = @dist_tot.match(/\d{1,}/).to_s.to_i
   end
 
-  def money_for_distance(dep_country, arr_country, dist, reach)
+  def money_for_distance(dep_country, arr_country, dist, reach) #reach = difference between rerouting time and expected arrival time (in hours)
     if reach.nil?
       reach = 100000
     end
@@ -151,6 +152,8 @@ class DemandsController < ApplicationController
       money_for_distance(demand.departure_country, demand.arrival_country, demand.distance, demand.rerouting)
     elsif demand.additional == 'moins de 7 jours' && ['problèmes technique', "grève de la compagnie (pilotes, hôtesses de l'air, stewards, ...)", "n'ai pas été informé/ne sais pas"].include?(demand.reason)
       money_for_distance(demand.departure_country, demand.arrival_country, demand.distance, demand.rerouting)
+    else
+      0
     end
   end
 
@@ -159,6 +162,8 @@ class DemandsController < ApplicationController
       0
     elsif demand.additional == 'de plus de 3 heures' && ['problèmes technique', "grève de la compagnie (pilotes, hôtesses de l'air, stewards, ...)", "n'ai pas été informé/ne sais pas"].include?(demand.reason)
       money_for_distance(demand.departure_country, demand.arrival_country, demand.distance, demand.rerouting)
+    else
+      0
     end
   end
 
@@ -167,6 +172,8 @@ class DemandsController < ApplicationController
       0
     elsif ["avant d'arriver à l'aéroport", "au comptoir d'enregistrement", "devant la porte d'embarquement"].include?(demand.additional) && ["d'un manque de place dans l'avion", "de problème(s) avec le personnel naviguant"].include?(demand.reason)
       money_for_distance(demand.departure_country, demand.arrival_country, demand.distance, demand.rerouting)
+    else
+      0
     end
   end
 end

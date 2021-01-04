@@ -1,17 +1,19 @@
-<div class="container">
+<div class="container-show">
   <h1>Récapitulatif</h1>
   <br>
   <p>Lors de votre vol <strong><%= @demand.designator %></strong>, partant de <em><%= @demand.departure_airport %></em> et à destination de <em><%= @demand.arrival_airport %></em>, vous avez subi un <strong><%= @demand.status %></strong> en raison de <%= @demand.reason %>. </p>
   <br>
 
-  <% if @demand.indemnite == 0%>
+  <% if @demand.indemnite == 0 || @demand.indemnite.nil? %>
     <p>
-    Malheureusement, vous n'êtes pas éligible à une indemnisation :(
+    <strong><u>Malheureusement</u></strong>, vous n'êtes pas éligible à une indemnisation :(
     <br>
-    Pour plus de précision veuillez envoyer un mail à l'addresse suivante (awotawa@gmail.com) avec l'url de votre demande.
+    Pour plus de précisions veuillez envoyer un mail à l'adresse suivante (awotawa@gmail.com) avec l'url de votre demande.
     </p>
   <% else %>
     <p>Selon les informations fournies, vous avez droit à une indemnisation de <strong><%= @demand.indemnite %> €</strong>.</p>
   <% end %>
-  <p>Ce chiffre se base sur la réglementation européenne sur le droit des passagers (n° 261-2004) ainsi que l'arrêt Esturgeon.</p>
+  <p>Ce chiffre se base sur la réglementation européenne sur le droit des passagers (n° 261-2004) ainsi que l'arrêt Sturgeon.</p>
 </div>
+  <%= link_to "Retour à l'accueil", root_path, :class=>"btn btn-info centering-btn" %>
+
